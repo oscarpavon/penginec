@@ -9,11 +9,13 @@ struct Window{
     #endif // GLFW
 };
 
+struct Window win;
+
 void create_window(){
     #ifdef GLFW
         glfwInit();
 
-        glfwCreateWindow(800,600,"C Engine", NULL, NULL);
+        win.window = glfwCreateWindow(800,600,"C Engine", NULL, NULL);
     #endif
 
 
