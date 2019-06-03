@@ -1,0 +1,15 @@
+{
+    "configurations": [
+        {
+            "name": "Engine",
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+			"defines": [
+                "GLFW"              
+                                
+			]
+        }
+    ],
+    "version": 4
+}
