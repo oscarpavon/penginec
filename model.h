@@ -9,4 +9,5 @@ struct Geometry{
 
 struct Vertex{
     vec3 postion;
+    char* test;
 };
