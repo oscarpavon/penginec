@@ -3,6 +3,7 @@
 
 
 #include <stdlib.h>
+#include "model.h"
 
 typedef struct _vector{    
     size_t limit;
@@ -18,6 +19,7 @@ typedef struct vertex_array{
     size_t size;
     size_t count;
     struct Vertex* vertices; 
+    struct Vertex vertices2[];
 }VertexArray;
 
 int vector_init(vector*, size_t);

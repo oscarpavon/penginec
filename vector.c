@@ -23,7 +23,7 @@ int init_vertex_array(VertexArray* array, size_t size){
     array->count = 0;
     array->vertices = calloc(size,sizeof(struct Vertex));
     array->size = sizeof(struct Vertex) * size;
-
+    return 0;
 }
 
 void add_vextex_to_array(VertexArray *array, struct Vertex vertex){
@@ -32,11 +32,14 @@ void add_vextex_to_array(VertexArray *array, struct Vertex vertex){
         array->count++;
         return;
     }
+
+    array->count++;
     array->size *=2;
     array->vertices = realloc(array->vertices,sizeof(struct Vertex) * array->size);
     if(!array->vertices){
         printf("array no allocated\n");
     }
-    memcpy(&array->vertices[1],&vertex,sizeof(struct Vertex));
+    memcpy(&array->vertices[array->count-1],&vertex,sizeof(struct Vertex));
+    array->vertices2[array->count-1] = vertex;
    
 }

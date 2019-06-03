@@ -30,6 +30,7 @@ void create_vertices(VertexArray* array){
     
     add_vextex_to_array(array,vert1);
     add_vextex_to_array(array,vert2);
+    
 }
 
 int main(){
@@ -48,6 +49,7 @@ int main(){
 
     printf("%s\n",vertex_array.vertices[0].test);
     printf("%s\n",vertex_array.vertices[1].test);
+    printf("Flexible array member : %s\n",vertex_array.vertices2[1].test);
 
     while(!glfwWindowShouldClose(win.window)){
 
