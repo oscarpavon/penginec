@@ -11,7 +11,7 @@ void ini_vec(vec3 vec_to_init , float x, float y, float z){
     vec_to_init[2] = z;   
 }
 
-void create_vertices(vector* where_to_copy){
+void create_vertices(VertexArray* array){
     struct Vertex vert1 , vert2 , vert3;
     vec3 pos1, pos2,  pos3;
         
@@ -28,10 +28,8 @@ void create_vertices(vector* where_to_copy){
 
     //printf("test \n");
     
-    vector_add(where_to_copy,&vert1);
-    //vector_add(where_to_copy,&vert2);
-    //vector_add(where_to_copy,&vert3);
-    
+    add_vextex_to_array(array,vert1);
+    add_vextex_to_array(array,vert2);
 }
 
 int main(){
@@ -40,18 +38,16 @@ int main(){
 
     glfwMakeContextCurrent(win.window);
 
-    vector new_vector;
-    new_vector.element_size = sizeof(struct Vertex);
-    vector_init(&new_vector, 1);
+
+    VertexArray vertex_array;
+    init_vertex_array(&vertex_array,1);
 
 
 
-    create_vertices(&new_vector);
+    create_vertices(&vertex_array);
 
-    struct Vertex* v = new_vector.data[0];
-    //v->test = "heloo";
-    if(v->test)
-        printf("%s\n",v->test);
+    printf("%s\n",vertex_array.vertices[0].test);
+    printf("%s\n",vertex_array.vertices[1].test);
 
     while(!glfwWindowShouldClose(win.window)){
 
