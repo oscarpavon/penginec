@@ -15,9 +15,9 @@ void create_vertices(VertexArray* array){
     struct Vertex vert1 , vert2 , vert3;
     vec3 pos1, pos2,  pos3;
         
-    ini_vec(pos1,0,1,0);
-    ini_vec(pos2,1,0,0);
-    ini_vec(pos3,1,1,0);
+    ini_vec(pos1,-1.f,-1.f,0);
+    ini_vec(pos2,1,-1.f,0);
+    ini_vec(pos3,0,1.f,0);
     vert1.test = "vert1";
     vert2.test = "vert2";
     vert3.test = "vert3";
@@ -30,6 +30,7 @@ void create_vertices(VertexArray* array){
     
     add_vextex_to_array(array,vert1); 
     add_vextex_to_array(array,vert2);
+    add_vextex_to_array(array,vert3);
     
 }
 
@@ -46,6 +47,15 @@ int main(){
 
 
     create_vertices(&vertex_array);
+    
+
+
+    GLuint id_vertex_buffer;
+    glGenBuffers(1,&id_vertex_buffer);
+    glBindBuffer(GL_ARRAY_BUFFER,id_vertex_buffer);
+    glBufferData(GL_ARRAY_BUFFER, vertex_array.count * sizeof(struct Vertex) , vertex_array.vertices, GL_STATIC_DRAW);
+
+   
 
     printf("%s\n",vertex_array.vertices[0].test);
     printf("%s\n",vertex_array.vertices[1].test);
@@ -53,18 +63,20 @@ int main(){
 
     while(!glfwWindowShouldClose(win.window)){
 
-        glClearColor(1,0,0,0.3f);
+        glClearColor(1,0,0,1);
         glClear(GL_COLOR_BUFFER_BIT);  
 
-        GLuint buffer;
-        glGenBuffers(1,&buffer);
-        glBindBuffer(GL_ARRAY_BUFFER,buffer);
+        glBindBuffer(GL_ARRAY_BUFFER,id_vertex_buffer);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(struct Vertex),(void*)0);
+        glDrawArrays(GL_TRIANGLES, 0 , 3);
 
         update_envents();
               
         glfwSwapBuffers(win.window);
     }
     
+    glfwTerminate();
     return 1;
 }
 
