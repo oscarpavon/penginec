@@ -15,4 +15,6 @@ struct Vertex{
     char* test;
 };
 
+void load_model(const char* path, struct Model*);
+
 #endif // !MODEL_H

@@ -8,7 +8,7 @@ export DEFINES
 OBJs := vector.o windows.o
 OBJs += file_loader.o
 OBJs += ./renderer/renderer_opengl.o
-
+OBJs += model.o
 all: main.o 
 
 main.o: main.c $(OBJs)
@@ -25,6 +25,10 @@ file_manager.o: file_loader.c file_loader.h
 
 renderer_opengl:
 	$(MAKE) -C ./renderer
+
+model.o: model.h model.c
+	$(CC) -c model.c
+
 
 .PHONY: clean
 clean:

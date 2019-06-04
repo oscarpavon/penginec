@@ -6,8 +6,7 @@
 
 #include "stdio.h"
 
-#define CGLTF_IMPLEMENTATION
-#include "third_party/cgltf.h"
+
 
 void ini_vec(vec3 vec_to_init , float x, float y, float z){
     vec_to_init[0] = x;
@@ -60,16 +59,8 @@ int main(){
     glBufferData(GL_ARRAY_BUFFER, vertex_array.count * sizeof(struct Vertex) , vertex_array.vertices, GL_STATIC_DRAW);
 
    
-    cgltf_options options = {0};
-    cgltf_data* data = NULL;
-    cgltf_result result = cgltf_parse_file(&options, "Game/models/sphere.gltf", &data);
-    if (result == cgltf_result_success)
-    {
-        /* TODO make awesome stuff */
-        
-        printf("gltf loaded. \n");
-        cgltf_free(data);
-    }
+    struct Model new_model;
+    load_model("Game/models/sphere.gltf",&new_model);
         
 
     printf("%s\n",vertex_array.vertices[0].test);
