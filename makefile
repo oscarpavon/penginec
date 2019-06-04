@@ -2,8 +2,12 @@ CC := cc -g -Wall
 
 DEFINES := -DGLFW
 
+export CC
+export DEFINES
+
 OBJs := vector.o windows.o
 OBJs += file_loader.o
+OBJs += ./renderer/renderer_opengl.o
 
 all: main.o 
 
@@ -19,6 +23,8 @@ windows.o: windows.h windows.c
 file_manager.o: file_loader.c file_loader.h
 	$(CC) -c file_loader.c $(DEFINES)
 
+renderer_opengl:
+	$(MAKE) -C ./renderer
 
 .PHONY: clean
 clean:
