@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "cstdlib": "cpp"
+        "cstdlib": "cpp",
+        "windows.h": "c",
+        "glfw3.h": "c"
     }
 }

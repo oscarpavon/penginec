@@ -1,6 +1,6 @@
 #define GLFW
 #include "windows.h"
-#include "GL/gl.h"
+
 #include "vector.h"
 #include "model.h"
 
@@ -28,16 +28,16 @@ void create_vertices(VertexArray* array){
 
     //printf("test \n");
     
-    add_vextex_to_array(array,vert1);
+    add_vextex_to_array(array,vert1); 
     add_vextex_to_array(array,vert2);
     
 }
 
 int main(){
-    
-    create_window();
+    Window win;
+    create_window(&win);
 
-    glfwMakeContextCurrent(win.window);
+    
 
 
     VertexArray vertex_array;
@@ -55,6 +55,10 @@ int main(){
 
         glClearColor(1,0,0,0.3f);
         glClear(GL_COLOR_BUFFER_BIT);  
+
+        GLuint buffer;
+        glGenBuffers(1,&buffer);
+        glBindBuffer(GL_ARRAY_BUFFER,buffer);
 
         update_envents();
               

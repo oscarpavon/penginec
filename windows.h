@@ -1,28 +1,21 @@
+#ifndef WINDOWS_H
+#define WINDOWS_H
+#define GLFW_INCLUDE_ES2
+#define GLFW_INCLUDE_GLEXT
 #ifdef GLFW
-        #include <GLFW/glfw3.h>
+    #include <GLFW/glfw3.h>
 #endif // GLFW
 
 
-struct Window{
+typedef struct window{
     #ifdef GLFW
        GLFWwindow* window;
     #endif // GLFW
-};
-
-struct Window win;
-
-void create_window(){
-    #ifdef GLFW
-        glfwInit();
-
-        win.window = glfwCreateWindow(800,600,"C Engine", NULL, NULL);
-    #endif
+} Window;
 
 
-}
 
-void update_envents(){
-    #ifdef GLFW
-        glfwPollEvents();
-    #endif
-}
+void create_window(Window *win);
+void update_envents();
+
+#endif // !WINDOWS_H
