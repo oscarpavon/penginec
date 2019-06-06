@@ -7,7 +7,7 @@ void create_window(Window *win){
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
         glfwInit();
-        win->window = glfwCreateWindow(800,600,"C Engine", NULL, NULL);
+        win->window = glfwCreateWindow(800,600,"Engine", NULL, NULL);
         glfwMakeContextCurrent(win->window);
         
 

@@ -5,20 +5,17 @@
 #include <cglm/vec3.h>
 void load_primitives(cgltf_data* data){
     
-    for(size_t i = 0 ; i < data->meshes[0].primitives_count ; i++){
-       cgltf_accessor* position_accesor = &data->accessors[0];
-       cgltf_buffer_view* position_buffer_view = position_accesor->buffer_view;
-       const float* bufferpos = (float*)&position_buffer_view->buffer->data[position_accesor->offset + position_buffer_view->offset];
+    struct Vertex vertices[4];
+   
+    float points[3] = {0,0,0};
+    cgltf_bool load_float = cgltf_accessor_read_float(&data->accessors[0],2,&points[0],3);
 
-        for(size_t v = 0 ; v < position_accesor->count ; v++){
+    for(size_t v = 0 ; v < data->accessors[0].count ; v++){
             struct Vertex vertex;
-            //float x = 
-        }
-       
+            vertex.test = "";
+            cgltf_accessor_read_float(&data->accessors[0],v,&vertex.postion[0],3);
+            vertices[v] = vertex;
     }
-    float points[4];
-    cgltf_bool load_float = cgltf_accessor_read_float(&data->accessors[0],0,&points[0],1);
-    
     
 }
 
@@ -30,6 +27,8 @@ void load_model(const char* path , struct Model* model){
          printf("Model no loaded: %s \n", path);
     return;        
     }
+    cgltf_load_buffers(&options,data,path);
+
     load_primitives(data);
     printf("gltf loaded. \n");
     cgltf_free(data);
