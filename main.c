@@ -42,14 +42,15 @@ int main(){
     create_window(&win);
 
     
+    struct Model new_model;
+    load_model("Game/models/triangle2.gltf",&new_model);
+
+    VertexArray vertex_array = new_model.vertex_array;
+    //init_vertex_array(&vertex_array,1);
 
 
-    VertexArray vertex_array;
-    init_vertex_array(&vertex_array,1);
 
-
-
-    create_vertices(&vertex_array);
+    //create_vertices(&vertex_array);
     
 
 
@@ -59,8 +60,7 @@ int main(){
     glBufferData(GL_ARRAY_BUFFER, vertex_array.count * sizeof(struct Vertex) , vertex_array.vertices, GL_STATIC_DRAW);
 
    
-    struct Model new_model;
-    load_model("Game/models/triangle2.gltf",&new_model);
+   
         
 
     printf("%s\n",vertex_array.vertices[0].test);

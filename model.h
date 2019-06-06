@@ -1,8 +1,11 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-#include <cglm/vec3.h>
+
+#include "vector.h"
+
 struct Model{
+    VertexArray vertex_array;
 
 };
 
@@ -10,10 +13,7 @@ struct Geometry{
 
 };
 
-struct Vertex{
-    vec3 postion;
-    char* test;
-};
+
 
 void load_model(const char* path, struct Model*);
 

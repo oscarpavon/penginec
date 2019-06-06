@@ -3,7 +3,8 @@
 
 
 #include <stdlib.h>
-#include "model.h"
+
+#include "vertex.h"
 
 typedef struct _vector{    
     size_t limit;

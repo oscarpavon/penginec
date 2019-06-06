@@ -3,8 +3,10 @@
 #include "third_party/cgltf.h"
 #include "stdio.h"
 #include <cglm/vec3.h>
-void load_primitives(cgltf_data* data){
+void load_primitives(cgltf_data* data, VertexArray* out_vertex_array){
     
+    init_vertex_array(out_vertex_array,data->accessors[0].count);
+
     struct Vertex vertices[4];
    
     float points[3] = {0,0,0};
@@ -14,7 +16,8 @@ void load_primitives(cgltf_data* data){
             struct Vertex vertex;
             vertex.test = "";
             cgltf_accessor_read_float(&data->accessors[0],v,&vertex.postion[0],3);
-            vertices[v] = vertex;
+            //vertices[v] = vertex;
+            add_vextex_to_array(out_vertex_array,vertex);
     }
     
 }
@@ -29,7 +32,8 @@ void load_model(const char* path , struct Model* model){
     }
     cgltf_load_buffers(&options,data,path);
 
-    load_primitives(data);
+    load_primitives(data,&model->vertex_array);
+
     printf("gltf loaded. \n");
     cgltf_free(data);
     
