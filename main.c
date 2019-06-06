@@ -59,7 +59,14 @@ int main(){
     glBindBuffer(GL_ARRAY_BUFFER,id_vertex_buffer);
     glBufferData(GL_ARRAY_BUFFER, vertex_array.count * sizeof(struct Vertex) , vertex_array.vertices, GL_STATIC_DRAW);
 
-   
+    GLuint id_index_buffer;
+    glGenBuffers(1,&id_index_buffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,id_index_buffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+                new_model.index_array.count * sizeof(unsigned short int), 
+                new_model.index_array.indices , GL_STATIC_DRAW);
+
+    
    
         
 
@@ -72,10 +79,17 @@ int main(){
         glClearColor(1,0,0,1);
         glClear(GL_COLOR_BUFFER_BIT);  
 
-        glBindBuffer(GL_ARRAY_BUFFER,id_vertex_buffer);
+        
+
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(struct Vertex),(void*)0);
-        glDrawArrays(GL_TRIANGLES, 0 , new_model.vertex_array.count);
+        
+       
+        glBindBuffer(GL_ARRAY_BUFFER,id_vertex_buffer);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,id_index_buffer);
+
+        glDrawElements(GL_TRIANGLES, new_model.index_array.count , GL_UNSIGNED_SHORT, (void*)0);
+        //glDrawArrays(GL_TRIANGLES, 0 , new_model.vertex_array.count);
 
         update_envents();
               
