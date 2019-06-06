@@ -2,6 +2,9 @@
     "files.associations": {
         "cstdlib": "cpp",
         "windows.h": "c",
-        "glfw3.h": "c"
+        "glfw3.h": "c",
+        "vec3.h": "c",
+        "cgltf.h": "c",
+        "stdio.h": "c"
     }
 }

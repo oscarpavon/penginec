@@ -60,7 +60,7 @@ int main(){
 
    
     struct Model new_model;
-    load_model("Game/models/sphere.gltf",&new_model);
+    load_model("Game/models/triangle2.gltf",&new_model);
         
 
     printf("%s\n",vertex_array.vertices[0].test);
