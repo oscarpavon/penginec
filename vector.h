@@ -6,8 +6,7 @@
 
 #include "vertex.h"
 
-typedef struct _vector{    
-    size_t limit;
+typedef struct _vector{
     size_t size;
     size_t element_size;
     size_t count;
@@ -16,7 +15,6 @@ typedef struct _vector{
 
 
 typedef struct vertex_array{    
-    size_t limit;
     size_t size;
     size_t count;
     struct Vertex* vertices; 

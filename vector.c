@@ -1,7 +1,7 @@
 #include "vector.h"
 #include <string.h>
 #include <stdio.h>
-#include "model.h"
+#include "vertex.h"
 void vector_add(vector *v, void *data_to_add){
      
 
@@ -34,7 +34,7 @@ void add_vextex_to_array(VertexArray *array, struct Vertex vertex){
     }
 
     array->count++;
-    array->size *=2;
+    array->size += sizeof(struct Vertex);
     array->vertices = realloc(array->vertices,sizeof(struct Vertex) * array->size);
     if(!array->vertices){
         printf("array no allocated\n");

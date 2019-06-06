@@ -63,10 +63,10 @@ int main(){
    
         
 
-    printf("%s\n",vertex_array.vertices[0].test);
+   /*  printf("%s\n",vertex_array.vertices[0].test);
     printf("%s\n",vertex_array.vertices[1].test);
     printf("Flexible array member : %s\n",vertex_array.vertices2[1].test);
-
+ */
     while(!glfwWindowShouldClose(win.window)){
 
         glClearColor(1,0,0,1);
@@ -75,7 +75,7 @@ int main(){
         glBindBuffer(GL_ARRAY_BUFFER,id_vertex_buffer);
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(struct Vertex),(void*)0);
-        glDrawArrays(GL_TRIANGLES, 0 , 3);
+        glDrawArrays(GL_TRIANGLES, 0 , new_model.vertex_array.count);
 
         update_envents();
               
