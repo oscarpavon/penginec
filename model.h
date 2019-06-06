@@ -6,6 +6,7 @@
 
 struct Model{
     VertexArray vertex_array;
+    IndexArray index_array;
 
 };
 

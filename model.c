@@ -3,6 +3,19 @@
 #include "third_party/cgltf.h"
 #include "stdio.h"
 #include <cglm/vec3.h>
+
+void load_indices(cgltf_data* data, IndexArray* index_array){
+    init_index_array(index_array,data->meshes[0].primitives[0].indices->count);
+
+    unsigned int indices[9] = {0,0,0,0,0,0,0,0,0};
+    for(size_t i = 0 ; i < data->meshes[0].primitives[0].indices->count ; i++){
+        //indices[i] = cgltf_accessor_read_index(data->meshes[0].primitives[0].indices,i);
+        unsigned short int index= cgltf_accessor_read_index(data->meshes[0].primitives[0].indices,i);
+        add_index_to_array(index_array,index);
+    }
+  
+    
+}
 void load_primitives(cgltf_data* data, VertexArray* out_vertex_array){
     
     init_vertex_array(out_vertex_array,data->accessors[0].count);
@@ -18,7 +31,8 @@ void load_primitives(cgltf_data* data, VertexArray* out_vertex_array){
             cgltf_accessor_read_float(&data->accessors[0],v,&vertex.postion[0],3);
             //vertices[v] = vertex;
             add_vextex_to_array(out_vertex_array,vertex);
-    }
+    }    
+
     
 }
 
@@ -33,6 +47,7 @@ void load_model(const char* path , struct Model* model){
     cgltf_load_buffers(&options,data,path);
 
     load_primitives(data,&model->vertex_array);
+    load_indices(data, &model->index_array);
 
     printf("gltf loaded. \n");
     cgltf_free(data);
