@@ -7,21 +7,20 @@
 void load_indices(cgltf_data* data, IndexArray* index_array){
     init_index_array(index_array,data->meshes[0].primitives[0].indices->count);
 
-    unsigned int indices[9] = {0,0,0,0,0,0,0,0,0};
     for(size_t i = 0 ; i < data->meshes[0].primitives[0].indices->count ; i++){
-        indices[i] = cgltf_accessor_read_index(data->meshes[0].primitives[0].indices,i);
         unsigned short int index= cgltf_accessor_read_index(data->meshes[0].primitives[0].indices,i);
-        size_t inde_2= cgltf_accessor_read_index(data->meshes[0].primitives[0].indices,i);
         add_index_to_array(index_array,index);
     }
-  
-    
+
+
+
 }
+
 void load_primitives(cgltf_data* data, VertexArray* out_vertex_array){
     
     init_vertex_array(out_vertex_array,data->accessors[0].count);
 
-    struct Vertex vertices[4];
+    //struct Vertex vertices[4];
    
     float points[3] = {0,0,0};
     cgltf_bool load_float = cgltf_accessor_read_float(&data->accessors[0],2,&points[0],3);

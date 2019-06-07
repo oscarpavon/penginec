@@ -6,6 +6,7 @@
 
 #include "stdio.h"
 
+#include "renderer/renderer_opengl.h"
 
 
 void ini_vec(vec3 vec_to_init , float x, float y, float z){
@@ -17,7 +18,7 @@ void ini_vec(vec3 vec_to_init , float x, float y, float z){
 void create_vertices(VertexArray* array){
     struct Vertex vert1 , vert2 , vert3;
     vec3 pos1, pos2,  pos3;
-        
+
     ini_vec(pos1,-1.f,-1.f,0);
     ini_vec(pos2,1,-1.f,0);
     ini_vec(pos3,0,1.f,0);
@@ -30,7 +31,8 @@ void create_vertices(VertexArray* array){
     glm_vec3_copy(pos3,vert3.postion);
 
     //printf("test \n");
-    
+
+
     add_vextex_to_array(array,vert1); 
     add_vextex_to_array(array,vert2);
     add_vextex_to_array(array,vert3);
@@ -41,18 +43,12 @@ int main(){
     Window win;
     create_window(&win);
 
-    
+
     struct Model new_model;
     load_model("Game/models/triangle2.gltf",&new_model);
 
     VertexArray vertex_array = new_model.vertex_array;
     //init_vertex_array(&vertex_array,1);
-
-
-
-    //create_vertices(&vertex_array);
-    
-
 
     GLuint id_vertex_buffer;
     glGenBuffers(1,&id_vertex_buffer);
@@ -66,9 +62,16 @@ int main(){
                 new_model.index_array.count * sizeof(unsigned short int), 
                 new_model.index_array.indices , GL_STATIC_DRAW);
 
-    
-   
-        
+    free(new_model.vertex_array.vertices);
+    free(new_model.index_array.indices);
+
+    GLuint vert_shader = load_and_compile_shader("Game/shaders/gles/vert.glsl", GL_VERTEX_SHADER);
+    GLuint frag_shader = load_and_compile_shader("Game/shaders/gles/red.glsl", GL_FRAGMENT_SHADER);
+    GLuint shader = glCreateProgram();
+    glAttachShader(shader, vert_shader);
+    glAttachShader(shader, frag_shader);
+    glLinkProgram(shader);
+
 
    /*  printf("%s\n",vertex_array.vertices[0].test);
     printf("%s\n",vertex_array.vertices[1].test);
@@ -79,23 +82,18 @@ int main(){
         glClearColor(1,0,0,1);
         glClear(GL_COLOR_BUFFER_BIT);  
 
-        
-
+        glUseProgram(shader);
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(struct Vertex),(void*)0);
-        
-       
-        glBindBuffer(GL_ARRAY_BUFFER,id_vertex_buffer);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,id_index_buffer);
+       // glBindBuffer(GL_ARRAY_BUFFER,id_vertex_buffer);
+        //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,id_index_buffer);
 
         glDrawElements(GL_TRIANGLES, new_model.index_array.count , GL_UNSIGNED_SHORT, (void*)0);
         //glDrawArrays(GL_TRIANGLES, 0 , new_model.vertex_array.count);
 
         update_envents();
-              
         glfwSwapBuffers(win.window);
     }
-    
     glfwTerminate();
     return 1;
 }

@@ -57,3 +57,8 @@ dkms.conf
 *.x64
 
 Game
+
+#*#
+GPATH
+GTAGS
+GRTAGS
