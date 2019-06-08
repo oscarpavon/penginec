@@ -9,7 +9,7 @@ void create_window(Window *win){
         glfwInit();
         win->window = glfwCreateWindow(800,600,"Engine", NULL, NULL);
         glfwMakeContextCurrent(win->window);
-        
+
 
     #endif
 

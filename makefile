@@ -31,5 +31,9 @@ model.o: model.h model.c
 
 
 .PHONY: clean
-clean:
+clean: clean_renderer
 	rm -f *.o
+
+.PHONY: clean_renderer
+clean_renderer:
+	cd renderer && rm -f *.o
