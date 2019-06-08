@@ -43,6 +43,7 @@ int main(){
     Window win;
     create_window(&win);
 
+    init_renderer();
 
     struct Model new_model;
     load_model("Game/models/triangle2.gltf",&new_model);
@@ -65,8 +66,8 @@ int main(){
     free(new_model.vertex_array.vertices);
     free(new_model.index_array.indices);
 
-    GLuint vert_shader = load_and_compile_shader("Game/shaders/gles/vert.glsl", GL_VERTEX_SHADER);
-    GLuint frag_shader = load_and_compile_shader("Game/shaders/gles/red.glsl", GL_FRAGMENT_SHADER);
+    GLuint vert_shader = load_and_compile_shader("Game/shaders/gles/simple_vert.glsl", GL_VERTEX_SHADER);
+   GLuint frag_shader = load_and_compile_shader("Game/shaders/gles/blue.glsl", GL_FRAGMENT_SHADER);
     GLuint shader = glCreateProgram();
     glAttachShader(shader, vert_shader);
     glAttachShader(shader, frag_shader);
