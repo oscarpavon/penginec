@@ -8,6 +8,10 @@
 
 #include "renderer/renderer_opengl.h"
 
+#include <cglm/call.h>
+#include <cglm/mat4.h>
+#include <cglm/affine.h>
+#include <cglm/vec3.h>
 
 void ini_vec(vec3 vec_to_init , float x, float y, float z){
     vec_to_init[0] = x;
@@ -63,6 +67,7 @@ int main(){
                 new_model.index_array.count * sizeof(unsigned short int), 
                 new_model.index_array.indices , GL_STATIC_DRAW);
 
+
     free(new_model.vertex_array.vertices);
     free(new_model.index_array.indices);
 
@@ -78,10 +83,22 @@ int main(){
     printf("%s\n",vertex_array.vertices[1].test);
     printf("Flexible array member : %s\n",vertex_array.vertices2[1].test);
  */
+
+    mat4 mvp;
+    glmc_mat4_identity(mvp);
+
+    vec3 axis;
+    glmc_vec3_one(axis);
+    axis[0] = 0;
+    axis[2] = 0;
+
     while(!glfwWindowShouldClose(win.window)){
 
         glClearColor(1,0,0,1);
         glClear(GL_COLOR_BUFFER_BIT);  
+
+        glmc_rotate(mvp, 0.005f, axis);
+        glUniformMatrix4fv(0, 1, GL_FALSE, &mvp[0][0]);
 
         glUseProgram(shader);
         glEnableVertexAttribArray(0);

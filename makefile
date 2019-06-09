@@ -12,7 +12,7 @@ OBJs += model.o
 all: main.o 
 
 main.o: main.c $(OBJs)
-	$(CC) main.c -o PavonEngine.x64 $(OBJs) $(DEFINES) -lglfw -lEGL -lGLESv2
+	$(CC) main.c -o PavonEngine.x64 $(OBJs) $(DEFINES) -lglfw -lEGL -lGLESv2 -lcglm
 
 vector.o: vector.h vector.c
 	$(CC) -c vector.c $(DEFINES)
