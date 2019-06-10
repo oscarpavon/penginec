@@ -7,9 +7,11 @@
 void load_uv(cgltf_data* data, VertexArray* out_vertex_array){
   printf("loading uv data \n");
 
-  for(size_t i = 0 ; i < data->accessors[2].count ; i++){
+  //float uv[3][2] = {{0,0},{0,0},{0,0}};
 
-    cgltf_accessor_read_float(&data->accessors[2], i, &out_vertex_array->vertices->uv[0], 2);
+  for(size_t i = 0 ; i < data->accessors[1].count ; i++){
+
+    cgltf_accessor_read_float(&data->accessors[1], i, &out_vertex_array->vertices[i].uv[0], 2);
 
   }
 
@@ -36,7 +38,8 @@ void load_primitives(cgltf_data* data, VertexArray* out_vertex_array){
 
     for(size_t v = 0 ; v < data->accessors[0].count ; v++){
             struct Vertex vertex;
-
+            vertex.uv[0] = 0;
+            vertex.uv[1] = 0;
             cgltf_accessor_read_float(&data->accessors[0],v,&vertex.postion[0],3);
             //vertices[v] = vertex;
             add_vextex_to_array(out_vertex_array,vertex);

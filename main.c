@@ -89,15 +89,24 @@ int main(){
 
     Image loaded_image = load_image("Game/textures/character2.jpg");
     GLuint image_buffer;
+
+    float texture[] = {
+      0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+		0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f};
+
     glGenTextures(1, &image_buffer);
     glBindTexture(GL_TEXTURE_2D, image_buffer);
-    glTexImage2D(image_buffer, 0, GL_RGB, loaded_image.width, loaded_image.heigth, 0, GL_RGB, GL_UNSIGNED_BYTE, loaded_image.pixels_data);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, loaded_image.width, loaded_image.heigth, 0, GL_RGB, GL_UNSIGNED_BYTE, loaded_image.pixels_data);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-
+    GLenum error = glGetError();
+    if(error != GL_NO_ERROR){
+      printf("Something was wrong\n");
+      printf("Error %08x \n",error);
+    }
 
     mat4 mvp;
     glmc_mat4_identity(mvp);
@@ -115,13 +124,24 @@ int main(){
         glmc_rotate(mvp, 0.005f, axis);
         glUniformMatrix4fv(0, 1, GL_FALSE, &mvp[0][0]);
 
+
         glUseProgram(shader);
+        glBindTexture(GL_TEXTURE_2D, image_buffer);
+        //glUniform1i(glGetUniformLocation(shader, "texture_sampler"), 0);
+
+        GLenum error = glGetError();
+        if(error != GL_NO_ERROR){
+          printf("Something was worng in bind texture\n");
+          printf("Error %08x \n",error);
+        }
+
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(struct Vertex),(void*)0);
+        glEnableVertexAttribArray(1);
         glVertexAttribPointer(1,2, GL_FLOAT, GL_FALSE, sizeof(struct Vertex), (void*)offsetof(struct Vertex, uv));
         // glBindBuffer(GL_ARRAY_BUFFER,id_vertex_buffer);
         //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,id_index_buffer);
-        glBindTexture(GL_TEXTURE_2D, image_buffer);
+
         glDrawElements(GL_TRIANGLES, new_model.index_array.count , GL_UNSIGNED_SHORT, (void*)0);
         //glDrawArrays(GL_TRIANGLES, 0 , new_model.vertex_array.count);
 
