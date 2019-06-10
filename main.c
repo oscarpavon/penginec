@@ -1,4 +1,3 @@
-#define GLFW
 #include "windows.h"
 
 #include "vector.h"
@@ -16,35 +15,6 @@
 
 #include "images.h"
 
-void ini_vec(vec3 vec_to_init , float x, float y, float z){
-    vec_to_init[0] = x;
-    vec_to_init[1] = y;
-    vec_to_init[2] = z;   
-}
-
-void create_vertices(VertexArray* array){
-    struct Vertex vert1 , vert2 , vert3;
-    vec3 pos1, pos2,  pos3;
-
-    ini_vec(pos1,-1.f,-1.f,0);
-    ini_vec(pos2,1,-1.f,0);
-    ini_vec(pos3,0,1.f,0);
-    vert1.test = "vert1";
-    vert2.test = "vert2";
-    vert3.test = "vert3";
-
-    glm_vec3_copy(pos1,vert1.postion);
-    glm_vec3_copy(pos2,vert2.postion);
-    glm_vec3_copy(pos3,vert3.postion);
-
-    //printf("test \n");
-
-
-    add_vextex_to_array(array,vert1); 
-    add_vextex_to_array(array,vert2);
-    add_vextex_to_array(array,vert3);
-    
-}
 
 int main(){
     Window win;
@@ -52,11 +22,13 @@ int main(){
 
     init_renderer();
 
+    glEnable(GL_DEPTH_TEST);
+
+
     struct Model new_model;
     load_model("Game/models/character-test.gltf",&new_model);
 
     VertexArray vertex_array = new_model.vertex_array;
-    //init_vertex_array(&vertex_array,1);
 
     GLuint id_vertex_buffer;
     glGenBuffers(1,&id_vertex_buffer);
@@ -75,24 +47,16 @@ int main(){
     free(new_model.index_array.indices);
 
     GLuint vert_shader = load_and_compile_shader("Game/shaders/gles/simple_vert.glsl", GL_VERTEX_SHADER);
-   GLuint frag_shader = load_and_compile_shader("Game/shaders/gles/texture.glsl", GL_FRAGMENT_SHADER);
+    GLuint frag_shader = load_and_compile_shader("Game/shaders/gles/texture.glsl", GL_FRAGMENT_SHADER);
     GLuint shader = glCreateProgram();
     glAttachShader(shader, vert_shader);
     glAttachShader(shader, frag_shader);
     glLinkProgram(shader);
 
 
-   /*  printf("%s\n",vertex_array.vertices[0].test);
-    printf("%s\n",vertex_array.vertices[1].test);
-    printf("Flexible array member : %s\n",vertex_array.vertices2[1].test);
- */
 
     Image loaded_image = load_image("Game/textures/character2.jpg");
     GLuint image_buffer;
-
-    float texture[] = {
-      0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-		0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f};
 
     glGenTextures(1, &image_buffer);
     glBindTexture(GL_TEXTURE_2D, image_buffer);
@@ -119,7 +83,7 @@ int main(){
     while(!glfwWindowShouldClose(win.window)){
 
         glClearColor(1,0,0,1);
-        glClear(GL_COLOR_BUFFER_BIT);  
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glmc_rotate(mvp, 0.005f, axis);
         glUniformMatrix4fv(0, 1, GL_FALSE, &mvp[0][0]);
@@ -143,7 +107,6 @@ int main(){
         //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,id_index_buffer);
 
         glDrawElements(GL_TRIANGLES, new_model.index_array.count , GL_UNSIGNED_SHORT, (void*)0);
-        //glDrawArrays(GL_TRIANGLES, 0 , new_model.vertex_array.count);
 
         update_envents();
         glfwSwapBuffers(win.window);
