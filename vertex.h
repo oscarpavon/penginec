@@ -5,7 +5,9 @@
 
 struct Vertex{
     vec3 postion;
-    char* test;
+  vec2 uv;
+  const char* test;
+
 };
 
 #endif // !VERTEX_H#define VERTEX_H

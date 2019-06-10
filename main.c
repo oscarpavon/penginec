@@ -13,6 +13,9 @@
 #include <cglm/affine.h>
 #include <cglm/vec3.h>
 
+
+#include "images.h"
+
 void ini_vec(vec3 vec_to_init , float x, float y, float z){
     vec_to_init[0] = x;
     vec_to_init[1] = y;
@@ -50,7 +53,7 @@ int main(){
     init_renderer();
 
     struct Model new_model;
-    load_model("Game/models/triangle2.gltf",&new_model);
+    load_model("Game/models/character-test.gltf",&new_model);
 
     VertexArray vertex_array = new_model.vertex_array;
     //init_vertex_array(&vertex_array,1);
@@ -72,7 +75,7 @@ int main(){
     free(new_model.index_array.indices);
 
     GLuint vert_shader = load_and_compile_shader("Game/shaders/gles/simple_vert.glsl", GL_VERTEX_SHADER);
-   GLuint frag_shader = load_and_compile_shader("Game/shaders/gles/blue.glsl", GL_FRAGMENT_SHADER);
+   GLuint frag_shader = load_and_compile_shader("Game/shaders/gles/texture.glsl", GL_FRAGMENT_SHADER);
     GLuint shader = glCreateProgram();
     glAttachShader(shader, vert_shader);
     glAttachShader(shader, frag_shader);
@@ -83,6 +86,18 @@ int main(){
     printf("%s\n",vertex_array.vertices[1].test);
     printf("Flexible array member : %s\n",vertex_array.vertices2[1].test);
  */
+
+    Image loaded_image = load_image("Game/textures/character2.jpg");
+    GLuint image_buffer;
+    glGenTextures(1, &image_buffer);
+    glBindTexture(GL_TEXTURE_2D, image_buffer);
+    glTexImage2D(image_buffer, 0, GL_RGB, loaded_image.width, loaded_image.heigth, 0, GL_RGB, GL_UNSIGNED_BYTE, loaded_image.pixels_data);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+
 
     mat4 mvp;
     glmc_mat4_identity(mvp);
@@ -103,9 +118,10 @@ int main(){
         glUseProgram(shader);
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(struct Vertex),(void*)0);
-       // glBindBuffer(GL_ARRAY_BUFFER,id_vertex_buffer);
+        glVertexAttribPointer(1,2, GL_FLOAT, GL_FALSE, sizeof(struct Vertex), (void*)offsetof(struct Vertex, uv));
+        // glBindBuffer(GL_ARRAY_BUFFER,id_vertex_buffer);
         //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,id_index_buffer);
-
+        glBindTexture(GL_TEXTURE_2D, image_buffer);
         glDrawElements(GL_TRIANGLES, new_model.index_array.count , GL_UNSIGNED_SHORT, (void*)0);
         //glDrawArrays(GL_TRIANGLES, 0 , new_model.vertex_array.count);
 

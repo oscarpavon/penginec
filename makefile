@@ -9,10 +9,12 @@ OBJs := vector.o windows.o
 OBJs += file_loader.o
 OBJs += ./renderer/renderer_opengl.o
 OBJs += model.o
-all: main.o 
+OBJs += images.o
+
+all: main.o
 
 main.o: main.c $(OBJs)
-	$(CC) main.c -o PavonEngine.x64 $(OBJs) $(DEFINES) -lglfw -lEGL -lGLESv2 -lcglm
+	$(CC) main.c -o PavonEngine.x64 $(OBJs) $(DEFINES) -lglfw -lEGL -lGLESv2 -lcglm -lm
 
 vector.o: vector.h vector.c
 	$(CC) -c vector.c $(DEFINES)
@@ -27,8 +29,10 @@ renderer_opengl:
 	$(MAKE) -C ./renderer
 
 model.o: model.h model.c
-	$(CC) -c model.c
+	$(CC) -c model.c $(DEFINES)
 
+images.o: images.h images.c
+	$(CC) -c images.c $(DEFINES)
 
 .PHONY: clean
 clean: clean_renderer
